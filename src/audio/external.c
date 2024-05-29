@@ -2485,6 +2485,13 @@ void sound_reset(u8 presetId) {
         sUnused8033323C = 0;
     }
 #endif
+
+#ifdef __3DS__
+#ifndef TARGET_N3DS
+    presetId = 1;
+#endif
+#endif
+
     sGameLoopTicked = 0;
     disable_all_sequence_players();
     sound_init();

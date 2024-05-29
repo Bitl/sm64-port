@@ -238,9 +238,7 @@ ASM_DIRS := lib
 ifeq ($(TARGET_N64),1)
   ASM_DIRS := asm $(ASM_DIRS)
 else
-  SRC_DIRS := $(SRC_DIRS) src/pc src/pc/gfx src/pc/gfx/multi_viewport src/pc/audio src/pc/controller
-  # If this is enabled, you can do ASM debugging on these files.
-  # SRC_DIRS := $(SRC_DIRS) src/pc/mixer_implementations
+  SRC_DIRS := $(SRC_DIRS) src/pc src/pc/gfx src/pc/audio src/pc/controller
   ASM_DIRS :=
 endif
 BIN_DIRS := bin bin/$(VERSION)
@@ -279,11 +277,7 @@ else
 ifeq ($(TARGET_WEB),1)
   OPT_FLAGS := -O2 -g4 --source-map-base http://localhost:8080/
 else
-ifeq ($(TARGET_N3DS),1)
   OPT_FLAGS := -O3
-else
-  OPT_FLAGS := -O2
-endif
 endif
 endif
 
@@ -504,33 +498,13 @@ ifeq ($(TARGET_N3DS),1)
   CTRULIB  :=  $(DEVKITPRO)/libctru
   LIBDIRS  := $(CTRULIB)
   export LIBPATHS  :=  $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
-  PLATFORM_CFLAGS  := -mtp=soft -DTARGET_N3DS -DARM11 -DosGetTime=n64_osGetTime -D_3DS -D__3DS__ -march=armv6k -mtune=mpcore -mfloat-abi=hard -mword-relocations -fomit-frame-pointer -ffast-math $(foreach dir,$(LIBDIRS),-I$(dir)/include)
+  PLATFORM_CFLAGS  := -mtp=soft -DTARGET_N3DS -DARM11 -DosGetTime=n64_osGetTime -D_3DS -D__3DS__ -march=armv6k -mtune=mpcore -mfloat-abi=hard -mword-relocations -fomit-frame-pointer $(foreach dir,$(LIBDIRS),-I$(dir)/include)
   PLATFORM_LDFLAGS := $(LIBPATHS) -lcitro3d -lctru -lm -specs=3dsx.specs -g -marm -mthumb-interwork -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
   ifeq ($(DISABLE_AUDIO),1)
     PLATFORM_CFLAGS += -DDISABLE_AUDIO
   endif
-  ifeq ($(ENABLE_N3DS_FRAMESKIP),1)
-    PLATFORM_CFLAGS += -DENABLE_N3DS_FRAMESKIP
-  endif
-endif
-
-# RSP Audio Emulation flags
-ifneq ($(TARGET_N64),1)
-
-  # Reference RSPA is the original implementation from the PC port.
-  # Enhanced RSPA is an N64-incompatible ehnancement that bypasses some redundancy.
-  ifeq ($(FORCE_REFERENCE_RSPA),1)
-    PLATFORM_CFLAGS += -DRSPA_USE_REFERENCE_IMPLEMENTATION
-  else
-    ifneq ($(DISABLE_ENHANCED_RSPA),1)
-      PLATFORM_CFLAGS += -DRSPA_USE_ENHANCEMENTS
-    endif
-  endif
-
-  # Accurate rounding for audio, which is practically identical, but faster.
-  # Support depends on which mixer implementation is used.
-  ifeq ($(AUDIO_USE_ACCURATE_MATH),1)
-    PLATFORM_CFLAGS += -DAUDIO_USE_ACCURATE_MATH
+  ifeq ($(DISABLE_N3DS_FRAMESKIP),1)
+    PLATFORM_CFLAGS += -DDISABLE_N3DS_FRAMESKIP
   endif
 endif
 
