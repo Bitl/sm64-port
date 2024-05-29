@@ -36,9 +36,9 @@
 
 // wait a quarter second between mashing
 #ifdef VERSION_EU
-#define DEBOUNCE_FRAMES 12
+#define DEBOUNCE_FRAMES 6
 #else
-#define DEBOUNCE_FRAMES 15
+#define DEBOUNCE_FRAMES 8
 #endif
 
 C3D_RenderTarget *gTarget;

@@ -859,9 +859,9 @@ static void gfx_citro3d_init(void)
     C3D_AlphaTest(true, GPU_GREATER, 0x00);
 
 #ifdef VERSION_EU
-    C3D_FrameRate(50);
+    C3D_FrameRate(25);
 #else
-    C3D_FrameRate(60);
+    C3D_FrameRate(30);
 #endif
 }
 
