@@ -37,6 +37,11 @@
 
 #include "../configfile.h"
 
+#include <include/types.h>
+#include <enhancements/puppycam.h>
+
+s16 rightstick[2];
+
 static int button_mapping[10][2];
 
 static void set_button_mapping(int index, int mask_n64, int mask_3ds)
@@ -97,10 +102,21 @@ static void controller_3ds_read(OSContPad *pad)
 {
     pad->button = controller_3ds_get_held();
 
-    circlePosition pos;
-    hidCircleRead(&pos);
-    pad->stick_x = pos.dx / 2;
-    pad->stick_y = pos.dy / 2;
+    circlePosition circlePad;
+    hidCircleRead(&circlePad);
+    pad->stick_x = circlePad.dx / 2;
+    pad->stick_y = circlePad.dy / 2;
+
+    circlePosition cStick;
+    hidCstickRead(&cStick);
+    rightstick[0] = cStick.dx / 1.25f;
+    rightstick[1] = cStick.dy / 1.25f;
+
+    if (rightstick[0] == 0 && rightstick[1] == 0) {
+        newcam_analogue = 0;
+    } else {
+        newcam_analogue = 1;
+    }
 }
 
 struct ControllerAPI controller_3ds = {
