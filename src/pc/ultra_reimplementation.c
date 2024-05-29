@@ -7,6 +7,25 @@
 #include <emscripten.h>
 #endif
 
+#define SAVE_FILE "config/sm64/sm64_save_file.bin"
+
+//https://stackoverflow.com/questions/21236508/to-create-all-needed-folders-with-fopen
+const char pathSeparator = '/';
+
+// Given a file path, create all constituent directories if missing
+void create_file_path_dirs(char *file_path) {
+  char *dir_path = (char *) malloc(strlen(file_path) + 1);
+  char *next_sep = strchr(file_path, pathSeparator);
+  while (next_sep != NULL) {
+    int dir_path_len = next_sep - file_path;
+    memcpy(dir_path, file_path, dir_path_len);
+    dir_path[dir_path_len] = '\0';
+    mkdir(dir_path, S_IRWXU|S_IRWXG|S_IROTH);
+    next_sep = strchr(next_sep + 1, pathSeparator);
+  }
+  free(dir_path);
+}
+
 extern OSMgrArgs piMgrArgs;
 
 u64 osClockRate = 62500000;
@@ -146,7 +165,9 @@ s32 osEepromLongRead(UNUSED OSMesgQueue *mq, u8 address, u8 *buffer, int nbytes)
         ret = 0;
     }
 #else
-    FILE *fp = fopen("sm64_save_file.bin", "rb");
+    create_file_path_dirs(SAVE_FILE);
+
+    FILE *fp = fopen(SAVE_FILE, "rb");
     if (fp == NULL) {
         return -1;
     }
@@ -176,7 +197,8 @@ s32 osEepromLongWrite(UNUSED OSMesgQueue *mq, u8 address, u8 *buffer, int nbytes
     }, content);
     s32 ret = 0;
 #else
-    FILE* fp = fopen("sm64_save_file.bin", "wb");
+    create_file_path_dirs(SAVE_FILE);
+    FILE* fp = fopen(SAVE_FILE, "wb");
     if (fp == NULL) {
         return -1;
     }

@@ -2486,10 +2486,8 @@ void sound_reset(u8 presetId) {
     }
 #endif
 
-#ifdef __3DS__
 #ifndef TARGET_N3DS
     presetId = 1;
-#endif
 #endif
 
     sGameLoopTicked = 0;
