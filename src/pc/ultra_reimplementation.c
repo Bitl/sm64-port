@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "lib/src/libultra_internal.h"
@@ -7,24 +8,14 @@
 #include <emscripten.h>
 #endif
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
+int mkdir(const char *pathname, mode_t mode);
+
 #define SAVE_FILE "config/sm64/sm64_save_file.bin"
 
-//https://stackoverflow.com/questions/21236508/to-create-all-needed-folders-with-fopen
-const char pathSeparator = '/';
-
-// Given a file path, create all constituent directories if missing
-void create_file_path_dirs(char *file_path) {
-  char *dir_path = (char *) malloc(strlen(file_path) + 1);
-  char *next_sep = strchr(file_path, pathSeparator);
-  while (next_sep != NULL) {
-    int dir_path_len = next_sep - file_path;
-    memcpy(dir_path, file_path, dir_path_len);
-    dir_path[dir_path_len] = '\0';
-    mkdir(dir_path, S_IRWXU|S_IRWXG|S_IROTH);
-    next_sep = strchr(next_sep + 1, pathSeparator);
-  }
-  free(dir_path);
-}
+extern void create_file_path_dirs(char *file_path);
 
 extern OSMgrArgs piMgrArgs;
 

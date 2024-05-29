@@ -33,6 +33,10 @@
 #include "configfile.h"
 
 #include "compat.h"
+#include <sys/stat.h>
+#include <sys/types.h>
+
+int mkdir(const char *pathname, mode_t mode);
 
 #define CONFIG_FILE "config/sm64/sm64config.txt"
 
