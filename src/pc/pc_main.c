@@ -33,10 +33,6 @@
 #include "configfile.h"
 
 #include "compat.h"
-#include <sys/stat.h>
-#include <sys/types.h>
-
-int mkdir(const char *pathname, mode_t mode);
 
 #define CONFIG_FILE "config/sm64/sm64config.txt"
 
@@ -134,25 +130,7 @@ static void on_anim_frame(double time) {
 }
 #endif
 
-//https://stackoverflow.com/questions/21236508/to-create-all-needed-folders-with-fopen
-const char pathSeparator = '/';
-
-// Given a file path, create all constituent directories if missing
-void create_file_path_dirs(char *file_path) {
-  char *dir_path = (char *) malloc(strlen(file_path) + 1);
-  char *next_sep = strchr(file_path, pathSeparator);
-  while (next_sep != NULL) {
-    int dir_path_len = next_sep - file_path;
-    memcpy(dir_path, file_path, dir_path_len);
-    dir_path[dir_path_len] = '\0';
-    mkdir(dir_path, S_IRWXU|S_IRWXG|S_IROTH);
-    next_sep = strchr(next_sep + 1, pathSeparator);
-  }
-  free(dir_path);
-}
-
 static void save_config(void) {
-    create_file_path_dirs(CONFIG_FILE);
     configfile_save(CONFIG_FILE);
 }
 
@@ -165,7 +143,6 @@ void main_func(void) {
     main_pool_init(pool, pool + sizeof(pool));
     gEffectsMemoryPool = mem_pool_init(0x4000, MEMORY_POOL_LEFT);
     
-    create_file_path_dirs(CONFIG_FILE);
     configfile_load(CONFIG_FILE);
     atexit(save_config);
 
