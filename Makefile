@@ -23,6 +23,8 @@ TARGET_N64 ?= 0
 TARGET_WEB ?= 0
 # Build for Nintendo 3DS
 TARGET_N3DS ?= 1
+# Build for *NEW* Nintendo 3DS
+TARGET_NEW_N3DS ?= 0
 # Compiler to use (ido or gcc)
 COMPILER ?= ido
 
@@ -150,6 +152,14 @@ ifeq ($(GRUCODE),f3dzex) # Fast3DZEX (2.0J / Animal Forest - Dōbutsu no Mori)
 endif
 endif
 endif
+endif
+endif
+
+ifeq ($(TARGET_N3DS),1)
+ifeq ($(TARGET_NEW_N3DS),1)
+   TARGET := $(TARGET).n3ds
+else
+   TARGET := $(TARGET).o3ds
 endif
 endif
 

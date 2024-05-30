@@ -2486,7 +2486,7 @@ void sound_reset(u8 presetId) {
     }
 #endif
 
-#ifndef TARGET_N3DS
+#ifndef TARGET_NEW_N3DS
     presetId = 1;
 #endif
 

@@ -76,8 +76,12 @@ int16_t* direct_buf;
 
 static bool is_new_n3ds()
 {
+#ifdef TARGET_NEW_N3DS
+    return true;
+#else
     bool is_new_n3ds = false;
     return R_SUCCEEDED(APT_CheckNew3DS(&is_new_n3ds)) ? is_new_n3ds : false;
+#endif
 }
 
 extern void create_next_audio_buffer(s16 *samples, u32 num_samples);

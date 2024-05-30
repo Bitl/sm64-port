@@ -3,7 +3,14 @@
 This repo does **not** include all assets necessary for compiling the game.
 A prior copy of the game is required to extract the assets.
 
-## Changes vs. Vanilla 3DS Port
+## Changes vs. Base MKST
+
+ - Choice to force building for New 3DS systems; set `TARGET_NEW_N3DS` to 1.
+    - Reduces length of time for is_new_n3ds functions and increases the number of concurrent sounds.
+ - Reduced the number of concurrent sounds (modified from https://github.com/mkst/sm64-port/pull/82)
+ - Added pre-built banner and icon.
+
+## Changes vs. Vanilla 3DS Port (Base MKST)
 
  - Based off [Refresh 11](https://github.com/sm64-port/sm64-port/commit/9214dddabcce4723d9b6cda2ebccbac209f6447d)
  - Stereo 3D support; use the mini-menu to switch between 3D (400px) and 800px modes (800PX/AA disabled in 3D mode)

@@ -65,11 +65,15 @@ static aptHookCookie apt_hook_cookie;
 
 static bool checkN3DS()
 {
+#ifdef TARGET_NEW_N3DS
+    return true;
+#else
     bool isNew3DS = false;
     if (R_SUCCEEDED(APT_CheckNew3DS(&isNew3DS)))
         return isNew3DS;
 
     return false;
+#endif
 }
 
 static void deinitialise_screens()
