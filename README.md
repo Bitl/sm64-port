@@ -6,7 +6,7 @@ A prior copy of the game is required to extract the assets.
 ## Changes vs. Base MKST
 
  - Choice to force building for New 3DS systems; set `TARGET_NEW_N3DS` to 1.
-    - Reduces length of time for is_new_n3ds functions and increases the number of concurrent sounds.
+    - Reduces length of time for is_new_n3ds functions and increases the number of concurrent sounds back to N64 defaults.
  - Reduced the number of concurrent sounds for O3DS (modified from https://github.com/mkst/sm64-port/pull/82)
  - Added pre-built banner and icon.
 
