@@ -7,7 +7,7 @@
 #include <emscripten.h>
 #endif
 
-#define SAVE_FILE "config/sm64/sm64_save_file.bin"
+#define SAVE_FILE "sm64_save_file.bin"
 
 extern OSMgrArgs piMgrArgs;
 
